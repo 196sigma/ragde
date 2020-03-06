@@ -98,7 +98,7 @@ def get_10k_by_firm(year, quarter, firm):
     
     return text_10k
 
-def get_10k_by_cik(year, quarter, cik):
+def get_10k_by_cik(year, quarter, cik, verbose=False):
     """
     Retrieve the appropriate 10-K filing for a given firm by CIK in a given year-quarter.
     """
@@ -120,8 +120,10 @@ def get_10k_by_cik(year, quarter, cik):
     try:
         filing_url = master_index_csv[master_index_csv['cik'] == cik]['edgar_url'].iloc[0]
     except:
-        print("Filing not found for {} in {}, quarter {}".format(cik, year, quarter))
-
+        if verbose:
+            print("Filing not found for {} in {}, quarter {}".format(cik, year, quarter))
+        return
+    
     if filing_url is not None:
         edgar_url = edgar_url_base + filing_url
 
@@ -129,8 +131,9 @@ def get_10k_by_cik(year, quarter, cik):
         storage_path_10k = os.path.join(_10K_DIR, edgar_url.split("/")[-1])
 
         req = urllib.request.urlretrieve(edgar_url, storage_path_10k)
-
-        return req
+        if req is not None:
+            output = {'storage_path': storage_path_10k}
+            return output
     
 def download_10k(firm_id, year, quarter):
     run(year, quarter)
