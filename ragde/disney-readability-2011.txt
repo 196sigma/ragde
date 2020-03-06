@@ -1,0 +1,2 @@
+cik,filing_year,filing_type,<function difficult_words at 0x7ff913511830>,<function flesch_kincaid_grade at 0x7ff9135114d0>
+1001039,2011,10K,7539,50.2

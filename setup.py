@@ -33,5 +33,6 @@ setup(
     install_requires=[
         'numpy',
         'matplotlib',
-    ]
+    ],
+    entry_points = {'console_scripts':['filings-readability=ragde.filings_readability:main']}
 )

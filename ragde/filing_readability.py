@@ -1,3 +1,6 @@
+import argparse
+import sys
+
 import readability
 import download_10k
 import re
@@ -48,3 +51,27 @@ def filing_readability(cik, filing_year, output_file = "", filing_type="10K", ve
         print(output_data)
     return
 
+def parse_args(args):
+    parser     = argparse.ArgumentParser(description='Get readability metrics for company filings.')
+    parser.add_argument('--cik', help='Firm CIK number', type=str)
+    parser.add_argument('--output-file', help='Destination on local drive for readability metrics', default="", dest='output_file', type=str)
+    parser.add_argument('--filing-year', help='Filing year of desired filing', dest='filing_year', type=str)
+    parser.add_argument('--filing-type', help='Filing type of desired filing', default="10K", dest='filing_type', type=str)
+    parser.add_argument('--verbose', help='Whether or not to display output', default=False, action='store_false')
+
+    return parser.parse_args(args)
+
+def main(args=None):
+    # parse arguments
+    if args is None:
+        args = sys.argv[1:]
+    args = parse_args(args)
+    
+    return filing_readability(cik=args.cik, 
+                             filing_year=args.filing_year,
+                             output_file=args.output_file,
+                             filing_type=args.filing_type,
+                             verbose=args.verbose)
+
+if __name__ == '__main__':
+    main()
