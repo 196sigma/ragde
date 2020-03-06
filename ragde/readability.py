@@ -7,7 +7,6 @@ import pkg_resources
 from functools import lru_cache
 from pyphen import Pyphen
 
-
 langs = {
     "en": {  # Default config
         "fre_base": 206.835,
@@ -24,7 +23,6 @@ def legacy_round(number, points=0):
     p = 10 ** points
     return float(math.floor((number * p) + math.copysign(0.5, number))) / p
 
-
 def get_grade_suffix(grade):
     """
     Select correct ordinal suffix
@@ -32,8 +30,6 @@ def get_grade_suffix(grade):
     ordinal_map = {1: 'st', 2: 'nd', 3: 'rd'}
     teens_map = {11: 'th', 12: 'th', 13: 'th'}
     return teens_map.get(grade % 100, ordinal_map.get(grade % 10, 'th'))
-
-
 
 def _cache_clear(self):
     caching_methods = [
@@ -45,7 +41,7 @@ def _cache_clear(self):
     for method in caching_methods:
         getattr( method).cache_clear()
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def char_count( text, ignore_spaces=True):
     """
     Function to return total character counts in a text,
@@ -56,7 +52,7 @@ def char_count( text, ignore_spaces=True):
         text = text.replace(" ", "")
     return len(text)
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def letter_count( text, ignore_spaces=True):
     """
     Function to return total letter amount in a text,
@@ -70,7 +66,7 @@ def letter_count( text, ignore_spaces=True):
 def remove_punctuation(text):
     return ''.join(ch for ch in text if ch not in string.punctuation)
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def lexicon_count( text, removepunct=True):
     """
     Function to return total lexicon (words in lay terms) counts in a text
@@ -80,7 +76,7 @@ def lexicon_count( text, removepunct=True):
     count = len(text.split())
     return count
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def syllable_count( text, lang=None):
     """
     Function to calculate syllable words in a text.
@@ -104,7 +100,7 @@ def syllable_count( text, lang=None):
         count += max(1, word_hyphenated.count("-") + 1)
     return count
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def sentence_count( text):
     """
     Sentence count of a text
@@ -116,7 +112,7 @@ def sentence_count( text):
             ignore_count += 1
     return max(1, len(sentences) - ignore_count)
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def avg_sentence_length( text):
     try:
         asl = float(lexicon_count(text) / sentence_count(text))
@@ -124,7 +120,7 @@ def avg_sentence_length( text):
     except ZeroDivisionError:
         return 0.0
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def avg_syllables_per_word( text, interval=None):
     syllable = syllable_count(text)
     words = lexicon_count(text)
@@ -137,7 +133,7 @@ def avg_syllables_per_word( text, interval=None):
     except ZeroDivisionError:
         return 0.0
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def avg_character_per_word( text):
     try:
         letters_per_word = float(
@@ -146,7 +142,7 @@ def avg_character_per_word( text):
     except ZeroDivisionError:
         return 0.0
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def avg_letter_per_word( text):
     try:
         letters_per_word = float(
@@ -155,7 +151,7 @@ def avg_letter_per_word( text):
     except ZeroDivisionError:
         return 0.0
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def avg_sentence_per_word( text):
     try:
         sentence_per_word = float(
@@ -164,7 +160,7 @@ def avg_sentence_per_word( text):
     except ZeroDivisionError:
         return 0.0
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def flesch_reading_ease( text):
     sentence_length = avg_sentence_length(text)
     s_interval = 100 if __get_lang_root() in ['es', 'it'] else None
@@ -180,7 +176,7 @@ def flesch_reading_ease( text):
     )
     return legacy_round(flesch, 2)
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def flesch_kincaid_grade( text):
     sentence_lenth = avg_sentence_length(text)
     syllables_per_word = avg_syllables_per_word(text)
@@ -190,7 +186,7 @@ def flesch_kincaid_grade( text):
             - 15.59)
     return legacy_round(flesch, 1)
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def polysyllabcount( text):
     count = 0
     for word in text.split():
@@ -199,7 +195,7 @@ def polysyllabcount( text):
             count += 1
     return count
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def smog_index( text):
     sentences = sentence_count(text)
 
@@ -215,14 +211,14 @@ def smog_index( text):
     else:
         return 0.0
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def coleman_liau_index( text):
     letters = legacy_round(avg_letter_per_word(text) * 100, 2)
     sentences = legacy_round(avg_sentence_per_word(text) * 100, 2)
     coleman = float((0.058 * letters) - (0.296 * sentences) - 15.8)
     return legacy_round(coleman, 2)
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def automated_readability_index( text):
     chrs = char_count(text)
     words = lexicon_count(text)
@@ -277,7 +273,7 @@ def difficult_words_list( text, syllable_threshold=2):
     return list(diff_words_set)
 
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def gunning_fog( text):
     try:
         syllable_threshold = __get_lang_cfg("syllable_threshold")
@@ -292,7 +288,7 @@ def gunning_fog( text):
     except ZeroDivisionError:
         return 0.0
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def lix( text):
     words = text.split()
 
@@ -305,7 +301,7 @@ def lix( text):
 
     return legacy_round(lix, 2)
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def rix( text):
     """
     A Rix ratio is simply the number of long words divided by
@@ -323,7 +319,7 @@ def rix( text):
 
     return legacy_round(rix, 2)
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def spache_readability( text, float_output=True):
     """
     Function to calculate SPACHE readability formula for young readers.
@@ -340,7 +336,7 @@ def spache_readability( text, float_output=True):
     else:
         return spache
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def dale_chall_readability_score_v2( text):
     """
     Function to calculate New Dale Chall Readability formula.
@@ -357,7 +353,7 @@ def dale_chall_readability_score_v2( text):
         adjusted_score = raw_score + 3.6365
     return legacy_round(adjusted_score, 2)
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def text_standard( text, float_output=None):
 
     grade = []
@@ -439,7 +435,7 @@ def text_standard( text, float_output=None):
             upper_score, get_grade_suffix(upper_score)
         )
 
-#@lru_cache(maxsize=128)
+@lru_cache(maxsize=128)
 def reading_time( text, ms_per_char=14.69):
     """
     Function to calculate reading time (Demberg & Keller, 2008)
