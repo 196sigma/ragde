@@ -9,11 +9,11 @@ def clean_filing(text):
     text = re.sub(r'\"', '', text)
     
     
-    text = BeautifulSoup(text, "lxml").text.encode('ascii', 'ignore')
+    text = BeautifulSoup(text, "lxml").text.encode('ascii', 'ignore').decode("utf-8")
     return text
 
-def get_filing_readability(cik, filing_year, output_file = "", filing_type="10K", verbose=False):
-    readability_metrics = ['difficult_words', 'flesch_kincaid_grade']
+def filing_readability(cik, filing_year, output_file = "", filing_type="10K", verbose=False):
+    readability_metrics = [readability.difficult_words, readability.flesch_kincaid_grade]
     
     if len(output_file) == 0:
         output_file = str(cik) + str(filing_year) + "-readability.txt"
@@ -32,9 +32,10 @@ def get_filing_readability(cik, filing_year, output_file = "", filing_type="10K"
         return
 
     text = clean_filing(open(req['storage_path'], 'r').read())
+    print(len(text))
     
     output_data = [['cik', 'filing_year', 'filing_type', *readability_metrics]]
-    metrics = [eval('readability.'+m+'(text)') for m in readability_metrics]
+    metrics = [f(text) for f in readability_metrics]
     output_line = [cik, filing_year, filing_type]
     output_line.extend(metrics)
     output_data.append(output_line)
