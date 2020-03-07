@@ -6,6 +6,13 @@ import download_10k
 import re
 from bs4 import BeautifulSoup
 
+readability_metrics = [readability.difficult_words, 
+                   readability.flesch_kincaid_grade, 
+                   readability.reading_time,
+                  readability.text_standard,
+                  readability.rix,
+                  readability.gunning_fog]
+
 def clean_filing(text):
     text = re.sub(r'[0-9]+', '', text)
     text = re.sub(r'\s+', ' ', text)
@@ -16,13 +23,6 @@ def clean_filing(text):
     return text
 
 def _filing_readability(cik, filing_year, output_file = "", filing_type="10K", verbose=False):
-    readability_metrics = [readability.difficult_words, 
-                           readability.flesch_kincaid_grade, 
-                           readability.reading_time,
-                          readability.text_standard,
-                          readability.rix,
-                          readability.gunning_fog]
-    if len(input_file) > 0:
     if len(output_file) == 0:
         output_file = str(cik) + str(filing_year) + "-readability.txt"
     
@@ -40,7 +40,6 @@ def _filing_readability(cik, filing_year, output_file = "", filing_type="10K", v
         return
 
     text = clean_filing(open(req['storage_path'], 'r').read())
-    print(len(text))
     
     output_data = [['cik', 'filing_year', 'filing_type', 
                     'difficult_words', 
@@ -63,11 +62,64 @@ def _filing_readability(cik, filing_year, output_file = "", filing_type="10K", v
         print(output_data)
     return
 
-def filing_readability(cik, filing_year, input_file="", output_file = "", filing_type="10K", verbose=False):
+def __filing_readability(input_file, output_file = "", filing_type="10K", verbose=False):
+
+    if not filing_type.replace("-","").lower() == "10k":
+        print("Invalid filing type!")
+        return
+    
+    if len(output_file) == 0:
+        output_file = "readability.txt"    
+
+    try:
+        input_lines = open(input_file, 'r').readlines()
+    except:
+        print("Invalid input file.")
+        return
+
+    output_data = [['cik', 'filing_year', 'filing_type', 
+                    'difficult_words', 
+                    'flesch_kincaid_grade,' 
+                    'reading_time',
+                    'text_standard',
+                    'rix',
+                    'gunning_fog']]
+    
+    for ln in input_lines:
+        ln = ln.strip().split(',')
+        cik = ln[0].strip()
+        filing_year = ln[1].strip()
+        filing_type = ln[2].strip()
+        
+        ## Download the filing
+        for quarter in [1,2,3,4]:
+            req = download_10k.download_10k(firm_id=cik, year=filing_year, quarter=quarter)
+            if req is not None:
+                break
+        if req is None:
+            print("No annual statements found for given CIK(s) and year(s).")
+            return
+
+        text = clean_filing(open(req['storage_path'], 'r').read())
+        
+        metrics = [f(text) for f in readability_metrics]
+        output_line = [cik, filing_year, filing_type]
+        output_line.extend(metrics)
+        output_data.append(output_line)
+
+        if verbose:
+            print(output_data)
+            
+    with open(output_file, 'w') as outfile:
+        for ln in output_data:
+            outfile.write(','.join([str(x) for x in ln]) + '\n')
+    return
+
+def filing_readability(cik="", filing_year="", input_file="", output_file = "", filing_type="10K", verbose=False):
     if len(input_file) == 0:
         return _filing_readability(cik, filing_year, output_file=output_file, filing_type=filing_type, verbose=verbose)
     else:
-        return
+        return  __filing_readability(input_file=input_file, output_file=output_file, filing_type=filing_type, verbose=verbose)
 
 def parse_args(args):
     parser     = argparse.ArgumentParser(description='Get readability metrics for company filings.')

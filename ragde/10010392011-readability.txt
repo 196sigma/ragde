@@ -1,2 +1,2 @@
-cik,filing_year,filing_type,<function difficult_words at 0x7ff0314b39e0>,<function flesch_kincaid_grade at 0x7ff0314b3680>
-1001039,2011,10K,7539,50.2
+cik,filing_year,filing_type,difficult_words,flesch_kincaid_grade,reading_time,text_standard,rix,gunning_fog
+1001039,2011,10K,7539,50.2,69913.84,35th and 36th grade,45.62,36.35
