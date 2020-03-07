@@ -1,4 +1,0 @@
-cik,filing_year,filing_type,difficult_words,flesch_kincaid_grade,reading_time,text_standard,rix,gunning_fog
-1001039,2011,10K,7539,50.2,69913.84,35th and 36th grade,45.62,36.35
-1001039,2012,10K,7797,54.0,71579.73,53rd and 54th grade,48.21,39.0
-1001039,2013,10K,12746,67.6,94870.12,67th and 68th grade,58.63,37.41
