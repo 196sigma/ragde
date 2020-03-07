@@ -1,0 +1,3 @@
+[console_scripts]
+filing-readability = ragde.filing_readability:main
+

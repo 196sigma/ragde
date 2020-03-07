@@ -36,13 +36,13 @@ $ pytest ragdE/tests/tests.py
 You will need to know the Central Index Key (CIK) of the company you are analyzing. These can be searched for on the SEC website: https://www.sec.gov/edgar/searchedgar/cik.htm
 
 ```
-$ filing_readability --cik 1001039 --output-file 'disney-10k-readability-2011.txt' --filing-year 2011 filing-type 10-K --verbose True
+$ filing-readability --cik 1001039 --output-file 'disney-10k-readability-2011.txt' --filing-year 2011 filing-type 10-K --verbose True
 ```
 
 For batch processing point the script to a comma-separated file of CIK, filing year, filing type tuples:
 
 ```
-$ filing_readability --input_file my-companies.txt
+$ filing-readability --input_file my-companies.txt
 ```
 
 ### Readability Metrics

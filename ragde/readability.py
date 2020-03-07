@@ -2,8 +2,8 @@ import warnings
 import string
 import re
 import math
-from collections import Counter
 import pkg_resources
+from collections import Counter
 from functools import lru_cache
 from pyphen import Pyphen
 
@@ -265,7 +265,7 @@ def difficult_words( text, syllable_threshold=2):
 def difficult_words_list( text, syllable_threshold=2):
     text_list = re.findall(r"[\w\='‘’]+", text.lower())
     diff_words_set = set()
-    easy_word_set = __get_lang_easy_words()
+    easy_word_set = __get_easy_words()
     for value in text_list:
         if value not in easy_word_set:
             if syllable_count(value) >= syllable_threshold:
@@ -457,9 +457,10 @@ def __get_lang_cfg( key):
 def __get_lang_root():
     return __lang.split("_")[0]
 
-def __get_lang_easy_words():
+def __get_easy_words():
     try:
-        easy_word_set = {ln.decode("utf-8").strip() for ln in open('easy_words.txt', 'rb').readlines()}
+        easy_word_set = {ln.decode("utf-8").strip() for ln in pkg_resources.resource_stream("ragde","easy_words.txt")}
+        #easy_word_set = {ln.decode("utf-8").strip() for ln in open('easy_words.txt', 'rb').readlines()}
     except FileNotFoundError:
         print("There is no easy words vocabulary.")
         return

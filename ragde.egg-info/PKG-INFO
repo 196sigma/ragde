@@ -1,0 +1,23 @@
+Metadata-Version: 1.2
+Name: ragde
+Version: 0.0.1
+Summary: A Python Package for Textual Analysis of Financial Disclosures
+Home-page: https://github.com/196sigma/ragde
+Author: Reginald Edwards
+Author-email: reginald.edwards@gmail.com
+Maintainer: Reginald Edwards
+License: MIT License
+Description: UNKNOWN
+Platform: all
+Classifier: Development Status :: 1 - Beta
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: Implementation
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Topic :: Software Development :: Libraries

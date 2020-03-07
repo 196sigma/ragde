@@ -88,57 +88,61 @@ def search_cik_by_firm(firm_search_string):
     """
     return cik
 
-def get_10k_by_firm(year, quarter, firm):
+def get_10k_by_firm(year, firm):
     """
     Retrieve the appropriate 10-K filing for a given firm by firm name in a given year-quarter.
     """
     cik = search_cik_by_firm(firm)
     
-    text_10k = get_10k_by_cik(year, quarter, cik)
+    text_10k = get_10k_by_cik(year, cik)
     
     return text_10k
 
-def get_10k_by_cik(year, quarter, cik, verbose=False):
+def get_10k_by_cik(year, cik, verbose=False):
     """
     Retrieve the appropriate 10-K filing for a given firm by CIK in a given year-quarter.
+    Returns a list of storage paths for the downloaded 10Ks.
     """
     
     try:
         cik = int(cik)
     except:
         print("CIK must be integer")
-    
-    print(cik)
-    edgar_url_base = "https://www.sec.gov/Archives/"
-    
-    csv_storage_path =  os.path.join(MASTER_INDEX_DIR_10K_CSV, "master-{}-QTR{}-10K.csv".format(year, quarter))
 
-    master_index_csv = pd.read_csv(csv_storage_path)
-    
-    filing_url = None
-    
-    try:
-        filing_url = master_index_csv[master_index_csv['cik'] == cik]['edgar_url'].iloc[0]
-    except:
+    print(cik)
+
+    filing_urls = []
+    for quarter in [1,2,3,4]:
+        run(year, quarter)
+
+        edgar_url_base = "https://www.sec.gov/Archives/"
+
+        csv_storage_path =  os.path.join(MASTER_INDEX_DIR_10K_CSV, "master-{}-QTR{}-10K.csv".format(year, quarter))
+
+        master_index_csv = pd.read_csv(csv_storage_path)
+
+        filing_urls.extend(list(master_index_csv[master_index_csv['cik'] == cik]['edgar_url']))
+
+    if len(filing_urls) == 0:
         if verbose:
             print("Filing not found for {} in {}, quarter {}".format(cik, year, quarter))
         return
-    
-    if filing_url is not None:
-        edgar_url = edgar_url_base + filing_url
 
+    edgar_urls = [edgar_url_base + filing_url for filing_url in filing_urls]
+    storage_paths_10ks = [os.path.join(_10K_DIR, x.split("/")[-1]) for x in edgar_urls]
 
-        storage_path_10k = os.path.join(_10K_DIR, edgar_url.split("/")[-1])
+    output = []
+    for edgar_url, storage_path_10k in zip(edgar_urls, storage_paths_10ks):
+        try:
+            req = urllib.request.urlretrieve(edgar_url, storage_path_10k)
+            output.append(storage_path_10k)
+        except:
+            continue
+    return output
 
-        req = urllib.request.urlretrieve(edgar_url, storage_path_10k)
-        if req is not None:
-            output = {'storage_path': storage_path_10k}
-            return output
-    
-def download_10k(firm_id, year, quarter):
-    run(year, quarter)
+def download_10k(firm_id, year):
     if firm_id.isdigit():
-        req = get_10k_by_cik(year, quarter, firm_id)
+        req = get_10k_by_cik(year, firm_id)
     else:
-        req = get_10k_by_firm(year, quarter, firm_id)
+        req = get_10k_by_firm(year, firm_id)
     return req

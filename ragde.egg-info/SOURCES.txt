@@ -1,0 +1,15 @@
+README.md
+setup.cfg
+setup.py
+ragde/__init__.py
+ragde/download_10k.py
+ragde/filing_readability.py
+ragde/readability.py
+ragde/tests.py
+ragde/utils.py
+ragde.egg-info/PKG-INFO
+ragde.egg-info/SOURCES.txt
+ragde.egg-info/dependency_links.txt
+ragde.egg-info/entry_points.txt
+ragde.egg-info/requires.txt
+ragde.egg-info/top_level.txt
