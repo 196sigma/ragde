@@ -1,6 +1,6 @@
 ## ragdE
 
-ragdE is a Python library for textual analysis of company financial disclosures. In the US, publicly traded corporations are required to file many documents about their business activities with the Securities and Exchange Commission (SEC). Based on considerable academic research, ragdE allows you to discover various readability metrics for these filings.
+ragdE (pronounced ragg-ed) is a Python library for textual analysis of company financial disclosures. In the US, publicly traded corporations are required to file many documents about their business activities with the Securities and Exchange Commission (SEC). Based on considerable academic research, ragdE allows you to discover various readability metrics for these filings.
 
 ## Installation
 
@@ -8,6 +8,7 @@ The easiest way to install ragdE is to clone this repository and pip install in 
 
 ```
 $ git clone git@github.com:196sigma/ragde.git
+$ cd ragde
 $ pip install .
 ```
 
@@ -51,3 +52,8 @@ Current readability metrics supported are:
 * reading time
 * rix index
 * text standard
+
+### Filing Types
+Current filing types (US firms only) supported are:
+
+* 10-K
