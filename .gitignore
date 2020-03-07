@@ -1,6 +1,7 @@
 ragde/10K/**
 *.ipynb
-
+master/**
+10K/**
 ragde/master/**
 ragde/master/csv/**
 ragde/master/unzipped/**
