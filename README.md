@@ -4,7 +4,12 @@ ragdE is a Python library for textual analysis of company financial disclosures.
 
 ## Installation
 
-The easiest way to install ragdE is to type pip install ragdE in the terminal/command line.
+The easiest way to install ragdE is to clone this repository and pip install in the terminal/command line:
+
+```
+$ git clone git@github.com:196sigma/ragde.git
+$ pip install .
+```
 
 Alternatively, to install ragdE by source code, download this repository and sequentially run following commands in your terminal/command line.
 
@@ -30,3 +35,19 @@ You will need to know the Central Index Key (CIK) of the company you are analyzi
 ```
 $ filing_readability --cik 1001039 --output-file 'disney-10k-readability-2011.txt' --filing-year 2011 filing-type 10-K --verbose True
 ```
+
+For batch processing point the script to a comma-separated file of CIK, filing year, filing type tuples:
+
+```
+$ filing_readability --input_file my-companies.txt
+```
+
+### Readability Metrics
+Current readability metrics supported are:
+
+* difficult words
+* Flesch-Kincaid
+* Gunning-Fog
+* reading time
+* rix index
+* text standard
