@@ -1,5 +1,7 @@
 ## ragdE
 
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/196sigma/ragde/blob/master/LICENSE.md)
+
 ragdE (pronounced ragg-ed) is a Python library for textual analysis of company financial disclosures. In the US, publicly traded corporations are required to file many documents about their business activities with the Securities and Exchange Commission (SEC). Based on considerable academic research, ragdE allows you to discover various readability metrics for these filings.
 
 ## Installation
