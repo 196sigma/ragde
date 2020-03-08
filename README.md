@@ -20,6 +20,7 @@ Alternatively, to install ragdE by source code, download this repository and seq
 ```
 $ python setup.py build
 $ python setup.py install
+$ make dev Makefile
 ```
 
 ### Dependencies
