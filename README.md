@@ -12,6 +12,7 @@ The easiest way to install ragdE is to clone this repository and pip install in 
 $ git clone git@github.com:196sigma/ragde.git
 $ cd ragde
 $ pip install .
+$ make dev Makefile
 ```
 
 Alternatively, to install ragdE by source code, download this repository and sequentially run following commands in your terminal/command line.
