@@ -1,3 +1,4 @@
 [console_scripts]
+filing-named-entities = ragde.filing_named_entities:main
 filing-readability = ragde.filing_readability:main
 

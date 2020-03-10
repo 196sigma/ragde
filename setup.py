@@ -34,5 +34,6 @@ setup(
         'numpy',
         'matplotlib',
     ],
-    entry_points = {'console_scripts':['filing-readability=ragde.filing_readability:main']}
+    entry_points = {'console_scripts':['filing-readability=ragde.filing_readability:main',
+                                       'filing-named-entities=ragde.filing_named_entities:main']}
 )
