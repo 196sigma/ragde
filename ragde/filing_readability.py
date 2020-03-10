@@ -3,8 +3,7 @@ import sys
 
 from ragde import readability
 from ragde import download_10k
-import re
-from bs4 import BeautifulSoup
+from ragde.utils import *
 
 readability_metrics = [readability.difficult_words, 
                    readability.flesch_kincaid_grade, 
@@ -20,12 +19,6 @@ HEADER = ['cik', 'filing_year', 'filing_type',
                     'rix',
                     'gunning_fog']
 
-def clean_filing(text):
-    text = re.sub(r'[0-9]+', '', text)
-    text = re.sub(r'\s+', ' ', text)
-    text = re.sub(r'\"', '', text)
-    text = BeautifulSoup(text, "lxml").text.encode('ascii', 'ignore').decode("utf-8")
-    return text
 
 def _filing_readability(cik, filing_year, output_file = "", filing_type="10K", verbose=False):
     """
