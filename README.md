@@ -37,6 +37,15 @@ $ pytest ragdE/tests/tests.py
 ## Usage
 You will need to know the Central Index Key (CIK) of the company you are analyzing. These can be searched for on the SEC website: https://www.sec.gov/edgar/searchedgar/cik.htm
 
+### Named Entity Extraction
+
+ragDe allows you to extract "named entities" from filings:
+
+```
+$ filing-named-entities --cik 1001039 --filing-type 10k filing-year 2011 --output-file 'disney-10k-2011-entities.txt'
+```
+
+### Readability Metrics
 ```
 $ filing-readability --cik 1001039 --output-file 'disney-10k-readability-2011.txt' --filing-year 2011 filing-type 10-K --verbose True
 ```
