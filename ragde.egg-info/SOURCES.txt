@@ -3,8 +3,10 @@ setup.cfg
 setup.py
 ragde/__init__.py
 ragde/download_10k.py
+ragde/dump.py
 ragde/filing_named_entities.py
 ragde/filing_readability.py
+ragde/get-edgar-full-index-files.py
 ragde/readability.py
 ragde/utils.py
 ragde.egg-info/PKG-INFO
